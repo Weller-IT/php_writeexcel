@@ -89,6 +89,7 @@ class writeexcel_workbook extends writeexcel_biffwriter
         $this->_debug = @$options['debug'];
         $this->_debug && error_log(__METHOD__.' options: '.print_r($options, 1));
         $filename = @$options['filename'];
+        $temp_dir = dirname($filename);
         if (is_null($filename)) {
             $temp_dir = isset($options['temp_dir']) && is_dir($options['temp_dir']) ? $options['temp_dir'] : sys_get_temp_dir();
             $filename = tempnam($temp_dir, isset($options['temp_prefix']) ? $options['temp_prefix'] : 'xls_');
@@ -117,7 +118,7 @@ class writeexcel_workbook extends writeexcel_biffwriter
 
         $this->_filename = $filename;
         $this->_parser   = $parser;
-        //?	$this->_tempdir			= undef;
+        $this->_tempdir	= $temp_dir;
         $this->_1904        = 0;
         $this->_activesheet = 0;
         $this->_firstsheet  = 0;
