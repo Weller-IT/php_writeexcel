@@ -1,13 +1,13 @@
 {
-    "name": "thoroc/php_writeexcel",
+    "name": "easywelfare/php_writeexcel",
     "type": "library",
     "description": "Powerful library to write excel files",
     "keywords": ["excel", "spreadsheet", "document", "xls", "writer"],
-    "homepage": "https://github.com/thoroc/php_writeexcel",
+    "homepage": "https://github.com/easywelfare/php_writeexcel",
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/thoroc/php_writeexcel.git"
+            "url": "https://github.com/easywelfare/php_writeexcel.git"
         }
     ],
     "license": "LGPL v2.1",
@@ -16,6 +16,12 @@
             "name": "Johann Hanne",
             "email": "jonny@1409.org",
             "homepage": "http://www.bettina-attack.de/jonny/view.php/projects/php_writeexcel/",
+            "role": "Developer"
+        },
+        {
+            "name": "EasyWelfare",
+            "email": "dev@easywelfare.com",
+            "homepage": "https://easywelfare.com/",
             "role": "Developer"
         }
     ],
