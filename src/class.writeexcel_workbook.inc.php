@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,11 +15,6 @@
  * Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA  02111-1307 USA
  */
-//require_once 'class.writeexcel_biffwriter.inc.php';
-//require_once 'class.writeexcel_format.inc.php';
-//require_once 'class.writeexcel_formula.inc.php';
-//require_once 'class.writeexcel_olewriter.inc.php';
-//require_once 'class.writeexcel_worksheet.inc.php';
 
 /**
  * This is the Spreadsheet::WriteExcel Perl package ported to PHP
