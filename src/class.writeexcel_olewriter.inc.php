@@ -41,7 +41,7 @@ class writeexcel_olewriter
     /**
      * Constructor.
      */
-    public function writeexcel_olewriter($filename)
+    public function __construct($filename)
     {
         $this->_OLEfilename  = $filename;
         $this->_filehandle   = false;
@@ -290,7 +290,7 @@ class writeexcel_olewriter
      */
     public function _write_pps($name, $type, $dir, $start, $size)
     {
-        $names  = array();
+        $names  = [];
         $length = 0;
 
         if ($name != '') {
@@ -303,7 +303,7 @@ class writeexcel_olewriter
             $length = strlen($name) * 2;
         }
 
-        $rawname = call_user_func_array('pack', array_merge(array('v*'), $names));
+        $rawname = call_user_func_array('pack', array_merge(['v*'], $names));
         $zero    = pack('C',  0);
 
         $pps_sizeofname = pack('v',  $length);   //0x40

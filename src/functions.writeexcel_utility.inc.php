@@ -84,7 +84,7 @@ function xl_cell_to_rowcol($cell)
     --$row;
     --$col;
 
-    return array($row, $col, $row_abs, $col_abs);
+    return [$row, $col, $row_abs, $col_abs];
 }
 
 /*
@@ -146,7 +146,7 @@ function xl_dec_col($cell)
 
 function xl_date_list($year, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0)
 {
-    $monthdays = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    $monthdays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     // Leap years since 1900 (year is dividable by 4)
     $leapyears = floor(($year - 1900) / 4);

@@ -62,7 +62,7 @@ class writeexcel_format
     /**
      * Constructor.
      */
-    public function writeexcel_format()
+    public function __construct()
     {
         $_ = func_get_args();
 
@@ -110,7 +110,7 @@ class writeexcel_format
 
         // Set properties passed to writeexcel_workbook::addformat()
         if (sizeof($_) > 0) {
-            call_user_func_array(array(&$this, 'set_properties'), $_);
+            call_user_func_array([&$this, 'set_properties'], $_);
         }
     }
 
@@ -354,7 +354,7 @@ class writeexcel_format
      */
     public function _get_color($color = false)
     {
-        $colors = array(
+        $colors = [
             'aqua'    => 0x0F,
             'cyan'    => 0x0F,
             'black'   => 0x08,
@@ -373,7 +373,7 @@ class writeexcel_format
             'silver'  => 0x16,
             'white'   => 0x09,
             'yellow'  => 0x0D,
-        );
+        ];
 
         // Return the default color, 0x7FFF, if undef,
         if ($color === false) {
@@ -547,7 +547,7 @@ class writeexcel_format
     {
         $_ = func_get_args();
 
-        $properties = array();
+        $properties = [];
         foreach ($_ as $props) {
             if (is_array($props)) {
                 $properties = array_merge($properties, $props);

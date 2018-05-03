@@ -92,9 +92,9 @@ class writeexcel_worksheet extends writeexcel_biffwriter
     /**
      * Constructor. Creates a new Worksheet object from a BIFFwriter object.
      */
-    public function writeexcel_worksheet($name, $index, &$activesheet, &$firstsheet, &$url_format, &$parser, $tempdir)
+    public function __construct($name, $index, &$activesheet, &$firstsheet, &$url_format, &$parser, $tempdir)
     {
-        $this->writeexcel_biffwriter();
+        parent::__construct();
 
         $rowmax = 65536; // 16384 in Excel 5
         $colmax = 256;
@@ -111,7 +111,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $this->_parser      = &$parser;
         $this->_tempdir     = $tempdir;
 
-        $this->_ext_sheets    = array();
+        $this->_ext_sheets    = [];
         $this->_using_tmpfile = 1;
         $this->_tmpfilename   = false;
         $this->_filehandle    = false;
@@ -124,9 +124,9 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $this->_dim_rowmax    = 0;
         $this->_dim_colmin    = $colmax + 1;
         $this->_dim_colmax    = 0;
-        $this->_colinfo       = array();
-        $this->_selection     = array(0, 0);
-        $this->_panes         = array();
+        $this->_colinfo       = [];
+        $this->_selection     = [0, 0];
+        $this->_panes         = [];
         $this->_active_pane   = 3;
         $this->_frozen        = 0;
         $this->_selected      = 0;
@@ -161,17 +161,17 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $this->_fit_width  = 0;
         $this->_fit_height = 0;
 
-        $this->_hbreaks = array();
-        $this->_vbreaks = array();
+        $this->_hbreaks = [];
+        $this->_vbreaks = [];
 
         $this->_protect  = 0;
         $this->_password = false;
 
-        $this->_col_sizes = array();
-        $this->_row_sizes = array();
+        $this->_col_sizes = [];
+        $this->_row_sizes = [];
 
-        $this->_col_formats = array();
-        $this->_row_formats = array();
+        $this->_col_formats = [];
+        $this->_row_formats = [];
 
         $this->_zoom        = 100;
         $this->_print_scale = 100;
@@ -196,12 +196,12 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $col_min = $this->_dim_colmin;    // First column
         $row_max = $this->_dim_rowmax;    // Last row plus 1
         $col_max = $this->_dim_colmax;    // Last column plus 1
-        return array(
+        return [
             'row_min' => $row_min,
             'col_min' => $col_min,
             'row_max' => $row_max,
             'col_max' => $col_max,
-        );
+        ];
     }
 
     /**
@@ -813,37 +813,37 @@ class writeexcel_worksheet extends writeexcel_biffwriter
 
         # Match an array ref.
         if (is_array($token)) {
-            return call_user_func_array(array(&$this, 'write_row'), $_);
+            return call_user_func_array([&$this, 'write_row'], $_);
         }
 
         # Match number
         if (preg_match('/^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/', $token)) {
-            return call_user_func_array(array(&$this, 'write_number'), $_);
+            return call_user_func_array([&$this, 'write_number'], $_);
         }
         # Match http, https or ftp URL
         elseif (preg_match('|^[fh]tt?ps?://|', $token)) {
-            return call_user_func_array(array(&$this, 'write_url'), $_);
+            return call_user_func_array([&$this, 'write_url'], $_);
         }
         # Match mailto:
         elseif (preg_match('/^mailto:/', $token)) {
-            return call_user_func_array(array(&$this, 'write_url'), $_);
+            return call_user_func_array([&$this, 'write_url'], $_);
         }
         # Match internal or external sheet link
         elseif (preg_match('[^(?:in|ex)ternal:]', $token)) {
-            return call_user_func_array(array(&$this, 'write_url'), $_);
+            return call_user_func_array([&$this, 'write_url'], $_);
         }
         # Match formula
         elseif (preg_match('/^=/', $token)) {
-            return call_user_func_array(array(&$this, 'write_formula'), $_);
+            return call_user_func_array([&$this, 'write_formula'], $_);
         }
         # Match blank
         elseif ($token == '') {
             array_splice($_, 2, 1); # remove the empty string from the parameter list
-            return call_user_func_array(array(&$this, 'write_blank'), $_);
+            return call_user_func_array([&$this, 'write_blank'], $_);
         }
         # Default: match string
         else {
-            return call_user_func_array(array(&$this, 'write_string'), $_);
+            return call_user_func_array([&$this, 'write_string'], $_);
         }
     }
 
@@ -1013,7 +1013,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         if (preg_match('/([A-I]?[A-Z]):([A-I]?[A-Z])/', $cell, $reg)) {
             list($dummy, $col1) = $this->_cell_to_rowcol($reg[1].'1'); # Add a dummy row
             list($dummy, $col2) = $this->_cell_to_rowcol($reg[2].'1'); # Add a dummy row
-            return array_merge(array($col1, $col2), $_);
+            return array_merge([$col1, $col2], $_);
         }
 
         # Convert a cell range: 'A1:B7'
@@ -1021,14 +1021,14 @@ class writeexcel_worksheet extends writeexcel_biffwriter
             list($row1, $col1) = $this->_cell_to_rowcol($reg[1]);
             list($row2, $col2) = $this->_cell_to_rowcol($reg[2]);
 
-            return array_merge(array($row1, $col1, $row2, $col2), $_);
+            return array_merge([$row1, $col1, $row2, $col2], $_);
         }
 
         # Convert a cell reference: 'A1' or 'AD2000'
         if (preg_match('/\$?([A-I]?[A-Z]\$?\d+)/', $cell, $reg)) {
             list($row1, $col1) = $this->_cell_to_rowcol($reg[1]);
 
-            return array_merge(array($row1, $col1), $_);
+            return array_merge([$row1, $col1], $_);
         }
 
         trigger_error("Unknown cell reference $cell", E_USER_ERROR);
@@ -1067,7 +1067,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         --$row;
         --$col;
 
-        return array($row, $col);
+        return [$row, $col];
     }
 
     /**
@@ -1453,7 +1453,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         }
 
         # Add start row and col to arg list
-        return call_user_func_array(array(&$this, 'write_url_range'), array_merge(array($_[0], $_[1]), $_));
+        return call_user_func_array([&$this, 'write_url_range'], array_merge([$_[0], $_[1]], $_));
     }
 
     /**
@@ -1487,14 +1487,14 @@ class writeexcel_worksheet extends writeexcel_biffwriter
 
         # Check for internal/external sheet links or default to web link
         if (preg_match('[^internal:]', $url)) {
-            return call_user_func_array(array(&$this, '_write_url_internal'), $_);
+            return call_user_func_array([&$this, '_write_url_internal'], $_);
         }
 
         if (preg_match('[^external:]', $url)) {
-            return call_user_func_array(array(&$this, '_write_url_external'), $_);
+            return call_user_func_array([&$this, '_write_url_external'], $_);
         }
 
-        return call_user_func_array(array(&$this, '_write_url_web'), $_);
+        return call_user_func_array([&$this, '_write_url_web'], $_);
     }
 
     /**
@@ -1651,7 +1651,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         # Network drives are different. We will handle them separately
         # MS/Novell network drives and shares start with \\
         if (preg_match('[^external:\\\\]', $_[4])) {
-            return call_user_func_array(array(&$this, '_write_url_external_net'), $_);
+            return call_user_func_array([&$this, '_write_url_external_net'], $_);
         }
 
         $record = 0x01B8;                    # Record identifier
@@ -2050,11 +2050,11 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $colLast  = @$_[3] ? $_[3] : $colFirst;    # Last  col in reference
         # Swap last row/col for first row/col as necessary
         if ($rwFirst > $rwLast) {
-            list($rwFirst, $rwLast) = array($rwLast, $rwFirst);
+            list($rwFirst, $rwLast) = [$rwLast, $rwFirst];
         }
 
         if ($colFirst > $colLast) {
-            list($colFirst, $colLast) = array($colLast, $colFirst);
+            list($colFirst, $colLast) = [$colLast, $colFirst];
         }
 
         $header = pack('vv', $record, $length);
@@ -2426,11 +2426,11 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $colLast  = $_[3] ? $_[3] : $colFirst;    # Last  col in reference
         // Swap last row/col for first row/col as necessary
         if ($rwFirst > $rwLast) {
-            list($rwFirst, $rwLast) = array($rwLast, $rwFirst);
+            list($rwFirst, $rwLast) = [$rwLast, $rwFirst];
         }
 
         if ($colFirst > $colLast) {
-            list($colFirst, $colLast) = array($colLast, $colFirst);
+            list($colFirst, $colLast) = [$colLast, $colFirst];
         }
 
         $header = pack('vv', $record, $length);
@@ -2971,7 +2971,7 @@ class writeexcel_worksheet extends writeexcel_biffwriter
         $header = pack('Vvvvv', 0x000c, $width, $height, 0x01, 0x18);
         $data   = $header.$data;
 
-        return array($width, $height, $size, $data);
+        return [$width, $height, $size, $data];
     }
 
     /**

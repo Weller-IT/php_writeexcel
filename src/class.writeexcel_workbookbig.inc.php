@@ -25,9 +25,9 @@
  */
 class writeexcel_workbookbig extends writeexcel_workbook
 {
-    public function writeexcel_workbookbig($filename)
+    public function __construct($filename)
     {
-        $this->writeexcel_workbook($filename);
+        parent::__construct($filename);
     }
 
     public function _store_OLE_file()
@@ -43,7 +43,7 @@ class writeexcel_workbookbig extends writeexcel_workbook
             $worksheet->cleanup();
         }
 
-        $ole = new ole_pps_root(false, false, array($file));
+        $ole = new ole_pps_root(false, false, [$file]);
         $ole->save($this->_filename);
     }
 }
