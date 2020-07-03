@@ -46,6 +46,14 @@ class writeexcel_workbook extends writeexcel_biffwriter
     protected $_formats;
     protected $_palette;
 
+    // Codepage (Character encoding) constants
+    // from http://www.openoffice.org/sc/excelfileformat.pdf, page 145
+    const CODEPAGE_UTF16 = 1200;        // UTF-16 (BIFF8)
+    const CODEPAGE_CP_1250 = 1250;      // Windows CP-1250 (Latin II) (Central European)
+    const CODEPAGE_CP_1251 = 1251;      // Windows CP-1251 (Cyrillic)
+    const CODEPAGE_CP_1252 = 1252;      // Windows CP-1252 (Latin I) (BIFF4-BIFF5)
+    const CODEPAGE_APPLEROMAN = 0x8000; // Apple Roman
+
     /**
      * Constructor.
      * Creates a new Workbook object from a BIFFwriter object.
@@ -123,7 +131,7 @@ class writeexcel_workbook extends writeexcel_biffwriter
         $this->_sheetname   = 'Sheet';
         $this->_tmp_format  = $tmp_format;
         $this->_url_format  = false;
-        $this->_codepage    = 0x04E4;
+        $this->_codepage    = self::CODEPAGE_CP_1252;
         $this->_worksheets  = [];
         $this->_sheetnames  = [];
         $this->_formats     = [];
@@ -509,13 +517,15 @@ class writeexcel_workbook extends writeexcel_biffwriter
      *
      * See also the _store_codepage method. This is used to store the code page, i.e.
      * the character set used in the workbook.
+     * 
+     * 
      */
     public function set_codepage($cp)
     {
         if ($cp == 1) {
-            $codepage = 0x04E4;
+            $codepage = self::CODEPAGE_CP_1252; // Windows CP-1252 (Latin I) (BIFF4-BIFF5)
         } elseif ($cp == 2) {
-            $codepage = 0x8000;
+            $codepage = self::CODEPAGE_APPLEROMAN; // Apple Roman
         }
         if ($codepage) {
             $this->_codepage = $codepage;

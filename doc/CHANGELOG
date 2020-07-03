@@ -1,3 +1,6 @@
+2020-07-03 (Mira Weller)
+- Add constants for codepages
+
 2015-12-06 (Craig Manley)
 -	Forked by me (Craig Manley) from https://github.com/thoroc/php_writeexcel
     which is almost an exact copy of 0.3.0 with a few warning suppressions,
