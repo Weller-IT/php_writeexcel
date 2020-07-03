@@ -1,13 +1,13 @@
 {
-    "name": "easywelfare/php_writeexcel",
+    "name": "weller-it/php_writeexcel",
     "type": "library",
     "description": "Powerful library to write excel files",
     "keywords": ["excel", "spreadsheet", "document", "xls", "writer"],
-    "homepage": "https://github.com/easywelfare/php_writeexcel",
+    "homepage": "https://github.com/Weller-IT/php_writeexcel",
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/easywelfare/php_writeexcel.git"
+            "url": "https://github.com/Weller-IT/php_writeexcel.git"
         }
     ],
     "license": "LGPL v2.1",
@@ -22,6 +22,12 @@
             "name": "EasyWelfare",
             "email": "dev@easywelfare.com",
             "homepage": "https://easywelfare.com/",
+            "role": "Developer"
+        },
+        {
+            "name": "Mira Weller",
+            "email": "mira@teamwiki.de",
+            "homepage": "https://weller-it.com/",
             "role": "Developer"
         }
     ],
