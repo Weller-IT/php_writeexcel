@@ -15,19 +15,9 @@ Example for your `composer.json` file:
 ```
 {
     "minimum-stability": "dev",
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/thoroc/php_ole"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/thoroc/php_writeexcel"
-      }
-    ],
     "require": {
-        "thoroc/php_ole": "master",
-        "thoroc/php_writeexcel": "master",
+        "Weller-IT/php_ole": "master",
+        "Weller-IT/php_writeexcel": "master",
     }
 }
 ```
